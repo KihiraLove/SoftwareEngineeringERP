@@ -1,12 +1,6 @@
-from dataclasses import dataclass
+from Entries.Bases.MaterialBase import MaterialBase
 
-@dataclass
-class User:
-    """
-    Data class, do not use directly
-    """
-    def __init__(self, id: int, name: str, min_stock: int, stock: int) -> None:
-        self.id = id
-        self.name = name
-        self.min_stock = min_stock
-        self.stock = stock
+
+class Material(MaterialBase):
+    def __init__(self, id: int, ext_id: int, name: str, min_stock: int, stock: int) -> None:
+        super().__init__(id, ext_id, name, min_stock, stock)
