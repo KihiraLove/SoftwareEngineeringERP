@@ -1,5 +1,3 @@
 class DataManager:
-    def __init__(self):
-
-
-def read_data()
+    def read_data(self) -> None:
+        return

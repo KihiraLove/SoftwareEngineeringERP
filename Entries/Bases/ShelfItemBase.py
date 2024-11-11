@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class ShelfItemBase:
     """
@@ -8,3 +9,4 @@ class ShelfItemBase:
     def __init__(self, id: int, amount: int) -> None:
         self.id = id
         self.amount = amount
+        return

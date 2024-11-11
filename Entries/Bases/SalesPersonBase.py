@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class SalesPersonBase:
     """
@@ -11,3 +12,4 @@ class SalesPersonBase:
         self.phone_number = phone_number
         self.email = email
         self.is_internal = is_internal
+        return

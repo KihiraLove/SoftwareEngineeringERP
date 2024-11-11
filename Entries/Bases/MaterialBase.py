@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class MaterialBase:
     """
@@ -11,3 +12,4 @@ class MaterialBase:
         self.name = name
         self.min_stock = min_stock
         self.stock = stock
+        return

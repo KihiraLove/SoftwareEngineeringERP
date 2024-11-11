@@ -11,3 +11,4 @@ class WarehouseTaskBase:
         self.id = id
         self.date = date
         self.status = status
+        return

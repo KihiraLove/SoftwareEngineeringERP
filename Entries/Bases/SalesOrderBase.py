@@ -12,3 +12,4 @@ class SalesOrderBase:
         self.date = date
         self.status = status
         self.is_inbound = is_inbound
+        return
