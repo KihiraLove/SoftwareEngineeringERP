@@ -1,10 +1,6 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class SalesPersonBase:
     """
-    Data class, do not use directly
+    Base class, do not use directly
     """
     def __init__(self, id: int, name: str, phone_number: str, email: str, is_internal: bool) -> None:
         self.id = id

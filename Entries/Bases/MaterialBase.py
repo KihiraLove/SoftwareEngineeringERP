@@ -1,10 +1,6 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class MaterialBase:
     """
-    Data class, do not use directly
+    Base class, do not use directly
     """
     def __init__(self, id: int, ext_id: int, name: str, min_stock: int, stock: int) -> None:
         self.id = id

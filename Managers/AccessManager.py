@@ -43,7 +43,7 @@ class AccessList:
         if user_type is UserType.WAREHOUSE_WORKER:
             return self.warehouse_worker_access
 
-    def check_access(self, user_type: UserType, access: AccessType) -> bool:
+    def has_access(self, user_type: UserType, access: AccessType) -> bool:
         """
         Check if user has access
         :param access: the access type to check

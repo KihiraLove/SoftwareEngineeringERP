@@ -1,13 +1,11 @@
-from dataclasses import dataclass
-from xmlrpc.client import DateTime
+from datetime import datetime
 
 
-@dataclass
 class WarehouseTaskBase:
     """
-    Data class, do not use directly
+    Base class, do not use directly
     """
-    def __init__(self, id: int, date: DateTime, status: str) -> None:
+    def __init__(self, id: int, date: datetime, status: str) -> None:
         self.id = id
         self.date = date
         self.status = status
