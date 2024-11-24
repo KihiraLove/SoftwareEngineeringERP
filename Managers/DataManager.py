@@ -11,10 +11,10 @@ class DataManager(object):
         Create Entry manager singletons and save a reference into a dict, with keys from Config.TYPES.Keys()
         """
         self.entry_managers = dict()
-        self.create_entry_managers()
+        self._create_entry_managers()
         return
 
-    def create_entry_managers(self):
+    def _create_entry_managers(self):
         """
         Create Entry manager singletons
         :return: None

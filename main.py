@@ -1,3 +1,8 @@
 from Managers.DataManager import DataManager
+# initialize data
+data_manager = DataManager()
 
-DataManager = DataManager()
+
+
+# write data at shutdown
+data_manager.write_data()
