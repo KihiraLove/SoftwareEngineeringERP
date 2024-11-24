@@ -36,12 +36,13 @@ class AccessList:
         """
         if user_type is UserType.MANAGER:
             return self.manager_access
-        if user_type is UserType.SALES_PERSON:
+        elif user_type is UserType.SALES_PERSON:
             return self.sales_person_access
-        if user_type is UserType.WAREHOUSE_MANAGER:
+        elif user_type is UserType.WAREHOUSE_MANAGER:
             return self.warehouse_manager_access
-        if user_type is UserType.WAREHOUSE_WORKER:
+        elif user_type is UserType.WAREHOUSE_WORKER:
             return self.warehouse_worker_access
+        raise ValueError('Invalid user type')
 
     def has_access(self, user_type: UserType, access: AccessType) -> bool:
         """

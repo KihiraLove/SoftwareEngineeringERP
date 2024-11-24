@@ -12,3 +12,10 @@ class AccessType(Enum):
     CREATE_STORAGE_BIN = 5
     RECEIVE_GOODS = 6
     WAREHOUSE_TASK = 7
+
+    def __str__(self):
+        """
+        Convert AccessType enum to string
+        :return: string representation of AccessType
+        """
+        return self.name

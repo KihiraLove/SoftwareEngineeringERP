@@ -1,16 +1,31 @@
 from datetime import datetime
+from typing import Self
 from Entries.Bases.SalesOrderBase import SalesOrderBase
-from Utils import Config
+from Utils.Parsing import parse_bool, parse_int_or_none, parse_int, parse_datetime
 
 
 class SalesOrder(SalesOrderBase):
-    # Don't forget to document this
+    """
+    Data class for SalesOrder type
+    """
     def __init__(self, id: int, date: datetime, status: str, is_inbound: bool, business_partner_id: int) -> None:
+        """
+        Constructor for SalesOrder type
+        :param id: id of sales order
+        :param date: date of sales order
+        :param status: status of sales order
+        :param is_inbound: is sales order inbound
+        :param business_partner_id: id of linked business partner, may be None
+        """
         super().__init__(id, date, status, is_inbound)
         self.business_partner_id = business_partner_id
         return
 
     def __repr__(self):
+        """
+        JSON representation of sales order
+        :return: JSON string of sales order
+        """
         return (f"{{"
                 f"\"id\": \"{self.id}\","
                 f"\"date\": \"{self.date}\","
@@ -20,25 +35,50 @@ class SalesOrder(SalesOrderBase):
                 f"}}")
 
     def get_id(self) -> int:
+        """
+        Getter for sales order id
+        :return: id of sales order
+        """
         return self.id
 
     def get_date(self) -> datetime:
+        """
+        Getter for sales order date
+        :return: date of sales order
+        """
         return self.date
 
     def get_status(self) -> str:
+        """
+        Getter for sales order status
+        :return: status of sales order
+        """
         return self.status
 
     def get_is_inbound(self) -> bool:
+        """
+        Getter for sales order is_inbound
+        :return: is sales order inbound
+        """
         return self.is_inbound
 
     def get_business_partner_id(self) -> int:
+        """
+        Getter for id of linked business partner
+        :return: id of linked business partner
+        """
         return self.business_partner_id
 
-
-def from_string(string_array: list[str]) -> SalesOrder:
-    id = int(string_array[0])
-    date = datetime.strptime(string_array[1], Config.TIME_FORMAT)
-    status = string_array[2]
-    is_inbound = True if string_array[3] == "True" else False
-    business_partner_id = int(string_array[4]) if string_array[3] != "None" else None
-    return SalesOrder(id, date, status, is_inbound, business_partner_id)
+    @classmethod
+    def from_string_list(cls, string_list: list[str]) -> Self:
+        """
+        Constructor for SalesOrder type using string list
+        :param string_list: string list of JSON object members
+        :return: new SalesOrder object
+        """
+        id = parse_int(string_list[0])
+        date = parse_datetime(string_list[1])
+        status = string_list[2]
+        is_inbound = parse_bool(string_list[3])
+        business_partner_id = parse_int_or_none(string_list[4])
+        return SalesOrder(id, date, status, is_inbound, business_partner_id)

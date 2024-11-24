@@ -1,5 +1,6 @@
 from typing import Self
 from Entries.Bases.BusinessPartnerBase import BusinessPartnerBase
+from Utils.Parsing import parse_int, parse_int_or_none
 
 
 class BusinessPartner(BusinessPartnerBase):
@@ -65,8 +66,8 @@ class BusinessPartner(BusinessPartnerBase):
         :param string_list: string list of JSON object members
         :return: new BusinessPartner object
         """
-        id = int(string_list[0])
+        id = parse_int(string_list[0])
         company = string_list[1]
         address = string_list[2]
-        sales_person_id = int(string_list[3]) if string_list[3] != "None" else None
+        sales_person_id = parse_int_or_none(string_list[3])
         return BusinessPartner(id, company, address, sales_person_id)

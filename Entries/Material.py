@@ -1,5 +1,6 @@
 from typing import Self
 from Entries.Bases.MaterialBase import MaterialBase
+from Utils.Parsing import parse_int
 
 
 class Material(MaterialBase):
@@ -73,9 +74,9 @@ class Material(MaterialBase):
         :param string_array: string list of JSON object members
         :return: new Material object
         """
-        id = int(string_array[0])
-        ext_id = int(string_array[1])
+        id = parse_int(string_array[0])
+        ext_id = parse_int(string_array[1])
         name = string_array[2]
-        min_stock = int(string_array[3])
-        stock = int(string_array[4])
+        min_stock = parse_int(string_array[3])
+        stock = parse_int(string_array[4])
         return Material(id, ext_id, name, min_stock, stock)

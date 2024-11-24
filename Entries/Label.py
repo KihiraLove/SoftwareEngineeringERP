@@ -1,5 +1,6 @@
 from typing import Self
 from Entries.Bases.LabelBase import LabelBase
+from Utils.Parsing import parse_int_or_none, parse_int
 
 
 class Label(LabelBase):
@@ -47,6 +48,6 @@ class Label(LabelBase):
         :param string_list: string list of JSON object members
         :return: new Label object
         """
-        id = int(string_list[0])
-        sales_order_id = int(string_list[1]) if string_list[1] != "None" else None
+        id = parse_int(string_list[0])
+        sales_order_id = parse_int_or_none(string_list[1])
         return Label(id, sales_order_id)

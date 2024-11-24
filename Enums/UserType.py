@@ -10,16 +10,8 @@ class UserType(Enum):
     WAREHOUSE_WORKER = 4
 
     def __str__(self):
+        """
+        Convert UserType enum to string
+        :return: string representation of UserType
+        """
         return self.name
-
-
-def parse_user_type(user_string: str) -> UserType:
-    if user_string == 'MANAGER':
-        return UserType.MANAGER
-    elif user_string == 'SALES_PERSON':
-        return UserType.SALES_PERSON
-    elif user_string == 'WAREHOUSE_MANAGER':
-        return UserType.WAREHOUSE_MANAGER
-    elif user_string == 'WAREHOUSE_WORKER':
-        return UserType.WAREHOUSE_WORKER
-    raise ValueError('Invalid user type')
