@@ -2,7 +2,9 @@ from datetime import datetime
 
 from Entries.User import User
 from Enums.UserType import UserType
+from Managers.EntryManagers.BusinessPartnerManager import BusinessPartnerManager
 from Utils import Config
+from Utils.Types import Type_ManagerType
 
 date = datetime.now().strftime(Config.TIME_FORMAT)
 time_str = "2024-11-23 14:56:01"
@@ -32,9 +34,22 @@ print(s)
 
 bp_string = bp.__repr__()
 bp_string_list = clean_up_json_to_string_list(bp_string)
-bp_rebuilt = BusinessPartner.from_string(bp_string_list)
+bp_rebuilt = BusinessPartner.from_string_list(bp_string_list)
 print(bp)
 print(bp_rebuilt)
 
 obj = deserialize(bp_string, BusinessPartner)[0]
 print(type(obj))
+
+type_manager = {"Business Partner": Type_ManagerType(BusinessPartner, BusinessPartnerManager)}
+entry_manager = dict()
+for name in type_manager.keys():
+    entry_manager[name] = type_manager[name].manager_type.create(bpl)
+
+print(entry_manager)
+print(entry_manager["Business Partner"].data)
+
+bpm = BusinessPartnerManager()
+
+print(bpm.data)
+print(entry_manager["Business Partner"].data)

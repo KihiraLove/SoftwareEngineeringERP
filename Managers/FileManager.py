@@ -62,3 +62,11 @@ def clean_up_json_to_string_list(json_string: str) -> list[str]:
         # Using max split because datetime has multiple : characters
         string_list[index] = string.split(":", 1)[1].strip()
     return string_list
+
+def get_json_path(type_name: str) -> str:
+    """
+    Get JSON file path for object type
+    :param type_name: name of object type
+    :return: path to JSON file for type
+    """
+    return f"./Data/{type_name}.json"
