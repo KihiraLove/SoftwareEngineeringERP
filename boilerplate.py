@@ -4,7 +4,7 @@ from Utils.Types import TYPES
 for name in TYPES.keys():
     if name == "BusinessPartner":
         continue
-    file_path = "./Managers/EntryManagers/" + TYPES[name].manager_type + ".py"
+    file_path = "./Managers/EntryManagers/" + name + "Manager.py"
     content = f"""from typing import Self
 from Entries.{name} import {name}
 from Utils.Singleton import Singleton
