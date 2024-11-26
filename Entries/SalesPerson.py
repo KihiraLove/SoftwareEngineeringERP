@@ -67,16 +67,16 @@ class SalesPerson(SalesPersonBase):
         """
         return self.is_internal
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for SalesPerson type using string list
-        :param string_list: string list of JSON object members
-        :return: new SalesPerson object
-        """
-        id = parse_int(string_list[0])
-        name = string_list[1]
-        phone_number = string_list[2]
-        email = string_list[3]
-        is_internal = parse_bool(string_list[4])
-        return SalesPerson(id, name, phone_number, email, is_internal)
+
+def from_string_list(string_list: list[str]) -> SalesPerson:
+    """
+    Constructor for SalesPerson type using string list
+    :param string_list: string list of JSON object members
+    :return: new SalesPerson object
+    """
+    id = parse_int(string_list[0])
+    name = string_list[1]
+    phone_number = string_list[2]
+    email = string_list[3]
+    is_internal = parse_bool(string_list[4])
+    return SalesPerson(id, name, phone_number, email, is_internal)

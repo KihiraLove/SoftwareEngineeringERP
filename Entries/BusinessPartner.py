@@ -59,15 +59,15 @@ class BusinessPartner(BusinessPartnerBase):
         """
         return self.sales_person_id
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor of BusinessPartner type using string list
-        :param string_list: string list of JSON object members
-        :return: new BusinessPartner object
-        """
-        id = parse_int(string_list[0])
-        company = string_list[1]
-        address = string_list[2]
-        sales_person_id = parse_int_or_none(string_list[3])
-        return BusinessPartner(id, company, address, sales_person_id)
+
+def from_string_list(string_list: list[str]) -> BusinessPartner:
+    """
+    Constructor of BusinessPartner type using string list
+    :param string_list: string list of JSON object members
+    :return: new BusinessPartner object
+    """
+    id = parse_int(string_list[0])
+    company = string_list[1]
+    address = string_list[2]
+    sales_person_id = parse_int_or_none(string_list[3])
+    return BusinessPartner(id, company, address, sales_person_id)

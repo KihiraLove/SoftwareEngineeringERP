@@ -41,13 +41,13 @@ class Label(LabelBase):
         """
         return self.sales_order_id
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for Label type using string list
-        :param string_list: string list of JSON object members
-        :return: new Label object
-        """
-        id = parse_int(string_list[0])
-        sales_order_id = parse_int_or_none(string_list[1])
-        return Label(id, sales_order_id)
+
+def from_string_list(string_list: list[str]) -> Label:
+    """
+    Constructor for Label type using string list
+    :param string_list: string list of JSON object members
+    :return: new Label object
+    """
+    id = parse_int(string_list[0])
+    sales_order_id = parse_int_or_none(string_list[1])
+    return Label(id, sales_order_id)

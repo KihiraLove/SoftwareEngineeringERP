@@ -40,13 +40,13 @@ class Shelf(ShelfBase):
         """
         return self.location
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for Shelf type using string list
-        :param string_list: string list of JSON object members
-        :return: new Shelf object
-        """
-        id = parse_int(string_list[0])
-        location = string_list[1]
-        return Shelf(id, location)
+
+def from_string_list(string_list: list[str]) -> Shelf:
+    """
+    Constructor for Shelf type using string list
+    :param string_list: string list of JSON object members
+    :return: new Shelf object
+    """
+    id = parse_int(string_list[0])
+    location = string_list[1]
+    return Shelf(id, location)

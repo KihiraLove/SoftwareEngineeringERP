@@ -71,16 +71,16 @@ class WarehouseTask(WarehouseTaskBase):
         """
         return self.user_id
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for WarehouseTask type using string list
-        :param string_list: string list of JSON object members
-        :return:
-        """
-        id = parse_int(string_list[0])
-        date = parse_datetime(string_list[1])
-        status = string_list[2]
-        sales_order_id = parse_int_or_none(string_list[3])
-        user_id = parse_int_or_none(string_list[4])
-        return WarehouseTask(id, date, status, sales_order_id, user_id)
+
+def from_string_list(string_list: list[str]) -> WarehouseTask:
+    """
+    Constructor for WarehouseTask type using string list
+    :param string_list: string list of JSON object members
+    :return:
+    """
+    id = parse_int(string_list[0])
+    date = parse_datetime(string_list[1])
+    status = string_list[2]
+    sales_order_id = parse_int_or_none(string_list[3])
+    user_id = parse_int_or_none(string_list[4])
+    return WarehouseTask(id, date, status, sales_order_id, user_id)

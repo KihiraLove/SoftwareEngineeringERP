@@ -61,16 +61,21 @@ class User(UserBase):
         """
         return self.user_type
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for User type using string list
-        :param string_list: string list of JSON object members
-        :return: new User object
-        """
-        id = parse_int(string_list[0])
-        name = string_list[1]
-        email = string_list[2]
-        password = string_list[3]
-        user_type = parse_user_type(string_list[4])
-        return User(id, name, email, password, user_type)
+    def check_password(self, password: str) -> bool:
+        if password != self.password:
+            raise ValueError("Password does not match")
+        return True
+
+
+def from_string_list(string_list: list[str]) -> User:
+    """
+    Constructor for User type using string list
+    :param string_list: string list of JSON object members
+    :return: new User object
+    """
+    id = parse_int(string_list[0])
+    name = string_list[1]
+    email = string_list[2]
+    password = string_list[3]
+    user_type = parse_user_type(string_list[4])
+    return User(id, name, email, password, user_type)

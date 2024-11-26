@@ -60,15 +60,15 @@ class ShelfItem(ShelfItemBase):
         """
         return self.material_id
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor of ShelfItem type using string list
-        :param string_list: string list of JSON object members
-        :return: new ShelfItem object
-        """
-        id = parse_int(string_list[0])
-        amount = parse_int(string_list[1])
-        shelf_id = parse_int_or_none(string_list[2])
-        material_id = parse_int_or_none(string_list[3])
-        return ShelfItem(id, amount, shelf_id, material_id)
+
+def from_string_list(string_list: list[str]) -> ShelfItem:
+    """
+    Constructor of ShelfItem type using string list
+    :param string_list: string list of JSON object members
+    :return: new ShelfItem object
+    """
+    id = parse_int(string_list[0])
+    amount = parse_int(string_list[1])
+    shelf_id = parse_int_or_none(string_list[2])
+    material_id = parse_int_or_none(string_list[3])
+    return ShelfItem(id, amount, shelf_id, material_id)

@@ -23,3 +23,23 @@ class UserManager(metaclass=Singleton):
         :return: returns created singleton instance for UserManager
         """
         return cls(data)
+
+    def search(self, email: str=None, id: int=None ) -> User:
+        """
+        Search for User by email or id
+        :param email: query option
+        :param id: query option
+        :return: found user by email or id
+        """
+        if email is None and id is None:
+            raise ValueError("Either email or id must be provided")
+        elif email is not None:
+            for user in self.data:
+                if user.email == email:
+                    return user
+            raise ValueError(f"User {email} not found")
+        elif id is not None:
+            for user in self.data:
+                if user.id == id:
+                    return user
+            raise ValueError(f"User id {id} not found")

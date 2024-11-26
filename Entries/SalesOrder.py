@@ -69,16 +69,16 @@ class SalesOrder(SalesOrderBase):
         """
         return self.business_partner_id
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for SalesOrder type using string list
-        :param string_list: string list of JSON object members
-        :return: new SalesOrder object
-        """
-        id = parse_int(string_list[0])
-        date = parse_datetime(string_list[1])
-        status = string_list[2]
-        is_inbound = parse_bool(string_list[3])
-        business_partner_id = parse_int_or_none(string_list[4])
-        return SalesOrder(id, date, status, is_inbound, business_partner_id)
+
+def from_string_list(string_list: list[str]) -> SalesOrder:
+    """
+    Constructor for SalesOrder type using string list
+    :param string_list: string list of JSON object members
+    :return: new SalesOrder object
+    """
+    id = parse_int(string_list[0])
+    date = parse_datetime(string_list[1])
+    status = string_list[2]
+    is_inbound = parse_bool(string_list[3])
+    business_partner_id = parse_int_or_none(string_list[4])
+    return SalesOrder(id, date, status, is_inbound, business_partner_id)

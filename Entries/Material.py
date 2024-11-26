@@ -67,16 +67,16 @@ class Material(MaterialBase):
         """
         return self.stock
 
-    @classmethod
-    def from_string_list(cls, string_array: list[str]) -> Self:
-        """
-        Constructor of Material type using string list
-        :param string_array: string list of JSON object members
-        :return: new Material object
-        """
-        id = parse_int(string_array[0])
-        ext_id = parse_int(string_array[1])
-        name = string_array[2]
-        min_stock = parse_int(string_array[3])
-        stock = parse_int(string_array[4])
-        return Material(id, ext_id, name, min_stock, stock)
+
+def from_string_list(string_array: list[str]) -> Material:
+    """
+    Constructor of Material type using string list
+    :param string_array: string list of JSON object members
+    :return: new Material object
+    """
+    id = parse_int(string_array[0])
+    ext_id = parse_int(string_array[1])
+    name = string_array[2]
+    min_stock = parse_int(string_array[3])
+    stock = parse_int(string_array[4])
+    return Material(id, ext_id, name, min_stock, stock)

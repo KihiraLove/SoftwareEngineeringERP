@@ -60,15 +60,15 @@ class SalesItem(SalesItemBase):
         """
         return self.sales_order_id
 
-    @classmethod
-    def from_string_list(cls, string_list: list[str]) -> Self:
-        """
-        Constructor for SalesItem type using string list
-        :param string_list: string list of JSON object members
-        :return: new SalesItem object
-        """
-        id = parse_int(string_list[0])
-        amount = parse_int(string_list[1])
-        material_id = parse_int_or_none(string_list[2])
-        sales_order_id = parse_int_or_none(string_list[3])
-        return SalesItem(id, amount, material_id, sales_order_id)
+
+def from_string_list(string_list: list[str]) -> SalesItem:
+    """
+    Constructor for SalesItem type using string list
+    :param string_list: string list of JSON object members
+    :return: new SalesItem object
+    """
+    id = parse_int(string_list[0])
+    amount = parse_int(string_list[1])
+    material_id = parse_int_or_none(string_list[2])
+    sales_order_id = parse_int_or_none(string_list[3])
+    return SalesItem(id, amount, material_id, sales_order_id)
