@@ -1,13 +1,19 @@
 from Managers.DataManager import DataManager
+from Managers.FlowManager import FlowManager
 from Managers.SessionManager import SessionManager
+from Managers.UIManager import UIManager
+
 
 # initialize data
 data_manager = DataManager()
+
+# start managers
 session_manager = SessionManager()
-session_manager.login()
+ui_manager = UIManager()
+flow_manager = FlowManager(data_manager, ui_manager, session_manager)
 
+# start workflow
+flow_manager.start_flow()
 
-
-session_manager.logout()
 # write data at shutdown
 data_manager.write_data()
