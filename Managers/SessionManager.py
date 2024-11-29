@@ -1,6 +1,6 @@
-from typing import Self
 from Entries.User import User
 from Enums.StatusKey import StatusKey
+from Enums.UserType import UserType
 from Managers.EntryManagers.UserManager import UserManager
 from Utils.Singleton import Singleton
 
@@ -47,3 +47,10 @@ class SessionManager(metaclass=Singleton):
         if self.user is None:
             return False
         return True
+
+    def current_users_type(self) -> UserType:
+        """
+        Function to get current users type
+        :return: type of current user
+        """
+        return self.user.user_type

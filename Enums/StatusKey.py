@@ -9,3 +9,5 @@ class StatusKey(Enum):
     EMAIL_CORRECT = 2
     INCORRECT = 3
     CORRECT = 4
+    LOGOUT = 5
+    SALES_ORDER = 6

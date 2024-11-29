@@ -4,6 +4,8 @@ from Managers.SessionManager import SessionManager
 from Managers.UIManager import UIManager
 import PySimpleGUI as sg
 
+from main import session_manager
+
 
 class FlowManager:
     def __init__(self, data_manager: DataManager, ui_manager: UIManager, session_manager: SessionManager):
@@ -21,7 +23,8 @@ class FlowManager:
             status = None
             if not self.session_manager.logged_in():
                 status = self.login_flow()
-
+            else:
+                status = self.main_flow()
             if status == StatusKey.EXIT:
                 break
         return
@@ -48,3 +51,20 @@ class FlowManager:
                     window["-MESSAGE-"].update("Invalid password.")
                 else:
                     window["-MESSAGE-"].update("Invalid email.")
+
+    def main_flow(self) -> StatusKey:
+        window = UIManager.create_main_window()
+
+        while True:
+            event, values = window.read()
+
+            if event in (sg.WINDOW_CLOSED, "-EXIT-"):
+                window.close()
+                return StatusKey.EXIT
+            elif event == "-LOGOUT-":
+                self.session_manager.logout()
+                window.close()
+                return StatusKey.LOGOUT
+            elif event == "-SALES-":
+                window.close()
+                return StatusKey.SALES_ORDER
