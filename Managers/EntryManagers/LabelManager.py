@@ -23,3 +23,6 @@ class LabelManager(metaclass=Singleton):
         :return: returns created singleton instance for LabelManager
         """
         return cls(data)
+
+    def create_label(self):
+        pass

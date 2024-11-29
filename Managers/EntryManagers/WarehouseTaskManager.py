@@ -23,3 +23,6 @@ class WarehouseTaskManager(metaclass=Singleton):
         :return: returns created singleton instance for WarehouseTaskManager
         """
         return cls(data)
+
+    def create_warehouse_task(self):
+        pass

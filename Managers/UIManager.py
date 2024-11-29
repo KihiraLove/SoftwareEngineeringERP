@@ -1,5 +1,4 @@
 from PySimpleGUI import Window
-
 from Enums.AccessType import AccessType
 from Managers.AccessList import AccessList
 from Managers.SessionManager import SessionManager
@@ -9,6 +8,7 @@ import PySimpleGUI as sg
 
 class UIManager(metaclass=Singleton):
     def __init__(self):
+        self.window = None
         return
 
     @staticmethod

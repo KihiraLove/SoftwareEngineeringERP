@@ -23,3 +23,6 @@ class SalesOrderManager(metaclass=Singleton):
         :return: returns created singleton instance for SalesOrderManager
         """
         return cls(data)
+
+    def create_sales_order(self):
+        pass

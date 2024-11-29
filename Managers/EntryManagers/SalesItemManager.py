@@ -23,3 +23,6 @@ class SalesItemManager(metaclass=Singleton):
         :return: returns created singleton instance for SalesItemManager
         """
         return cls(data)
+
+    def create_sales_item(self, sales_item: SalesItem) -> Self:
+        return

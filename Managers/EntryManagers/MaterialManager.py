@@ -23,3 +23,6 @@ class MaterialManager(metaclass=Singleton):
         :return: returns created singleton instance for MaterialManager
         """
         return cls(data)
+
+    def create_material(self):
+        return
