@@ -62,7 +62,7 @@ class User(UserBase):
 
     def password_matches(self, password: str) -> bool:
         if password != self.password:
-            raise ValueError("Password does not match")
+            return False
         return True
 
 

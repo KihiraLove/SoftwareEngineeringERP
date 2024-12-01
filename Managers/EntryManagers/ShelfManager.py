@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Shelf import Shelf
 from Utils.Singleton import Singleton
 
@@ -15,11 +14,11 @@ class ShelfManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[Shelf|object]) -> Self:
-        """
-        Constructor for ShelfManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of Shelf objects
-        :return: returns created singleton instance for ShelfManager
-        """
-        return cls(data)
+
+def create(data: list[Shelf|object]) -> ShelfManager:
+    """
+    Constructor for ShelfManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of Shelf objects
+    :return: returns created singleton instance for ShelfManager
+    """
+    return ShelfManager(data)

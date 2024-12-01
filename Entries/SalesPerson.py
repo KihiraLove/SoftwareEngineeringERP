@@ -1,5 +1,5 @@
 from Entries.Bases.SalesPersonBase import SalesPersonBase
-from Utils.Parsing import parse_bool, parse_int
+from Utils.Parsing import parse_bool, parse_int, parse_int_or_none
 
 
 class SalesPerson(SalesPersonBase):
@@ -81,5 +81,5 @@ def from_string_list(string_list: list[str]) -> SalesPerson:
     phone_number = string_list[2]
     email = string_list[3]
     is_internal = parse_bool(string_list[4])
-    user_id = parse_int(string_list[5])
+    user_id = parse_int_or_none(string_list[5])
     return SalesPerson(id, name, phone_number, email, is_internal, user_id)

@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.BusinessPartner import BusinessPartner
 from Utils.Singleton import Singleton
 
@@ -15,11 +14,18 @@ class BusinessPartnerManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[BusinessPartner|object]) -> Self:
-        """
-        Constructor for BusinessPartnerManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of BusinessPartner objects
-        :return: returns created singleton instance for BusinessPartnerManager
-        """
-        return cls(data)
+    def names(self) -> list[str]:
+        names = []
+        for business_partner in self.data:
+            names.append(business_partner.company)
+        return names
+
+
+
+def create(data: list[BusinessPartner|object]) -> BusinessPartnerManager:
+    """
+    Constructor for BusinessPartnerManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of BusinessPartner objects
+    :return: returns created singleton instance for BusinessPartnerManager
+    """
+    return BusinessPartnerManager(data)

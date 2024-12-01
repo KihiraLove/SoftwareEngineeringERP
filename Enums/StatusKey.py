@@ -11,3 +11,5 @@ class StatusKey(Enum):
     CORRECT = 4
     LOGOUT = 5
     SALES_ORDER = 6
+    MAIN = 7
+    ADD_ROW = 8

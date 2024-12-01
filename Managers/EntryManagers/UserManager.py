@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.User import User
 from Utils.Singleton import Singleton
 
@@ -14,15 +13,6 @@ class UserManager(metaclass=Singleton):
         """
         self.data = data
         return
-
-    @classmethod
-    def create(cls, data: list[User|object]) -> Self:
-        """
-        Constructor for UserManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of User objects
-        :return: returns created singleton instance for UserManager
-        """
-        return cls(data)
 
     def search(self, email: str=None, id: int=None ) -> User:
         """
@@ -43,3 +33,12 @@ class UserManager(metaclass=Singleton):
                 if user.id == id:
                     return user
             raise ValueError(f"User id {id} not found")
+
+
+def create(data: list[User|object]) -> UserManager:
+    """
+    Constructor for UserManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of User objects
+    :return: returns created singleton instance for UserManager
+    """
+    return UserManager(data)

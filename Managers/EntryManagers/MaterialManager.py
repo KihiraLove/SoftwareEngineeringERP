@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Material import Material
 from Utils.Singleton import Singleton
 
@@ -15,14 +14,14 @@ class MaterialManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[Material|object]) -> Self:
-        """
-        Constructor for MaterialManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of Material objects
-        :return: returns created singleton instance for MaterialManager
-        """
-        return cls(data)
-
     def create_material(self):
         return
+
+
+def create(data: list[Material|object]) -> MaterialManager:
+    """
+    Constructor for MaterialManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of Material objects
+    :return: returns created singleton instance for MaterialManager
+    """
+    return MaterialManager(data)

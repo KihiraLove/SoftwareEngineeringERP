@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.WarehouseTask import WarehouseTask
 from Utils.Singleton import Singleton
 
@@ -15,14 +14,14 @@ class WarehouseTaskManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[WarehouseTask|object]) -> Self:
-        """
-        Constructor for WarehouseTaskManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of WarehouseTask objects
-        :return: returns created singleton instance for WarehouseTaskManager
-        """
-        return cls(data)
-
     def create_warehouse_task(self):
         pass
+
+
+def create(data: list[WarehouseTask|object]) -> WarehouseTaskManager:
+    """
+    Constructor for WarehouseTaskManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of WarehouseTask objects
+    :return: returns created singleton instance for WarehouseTaskManager
+    """
+    return WarehouseTaskManager(data)

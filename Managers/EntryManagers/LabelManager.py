@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Label import Label
 from Utils.Singleton import Singleton
 
@@ -15,14 +14,14 @@ class LabelManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[Label|object]) -> Self:
-        """
-        Constructor for LabelManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of Label objects
-        :return: returns created singleton instance for LabelManager
-        """
-        return cls(data)
-
     def create_label(self):
         pass
+
+
+def create(data: list[Label|object]) -> LabelManager:
+    """
+    Constructor for LabelManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of Label objects
+    :return: returns created singleton instance for LabelManager
+    """
+    return LabelManager(data)

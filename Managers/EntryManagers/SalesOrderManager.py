@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.SalesOrder import SalesOrder
 from Utils.Singleton import Singleton
 
@@ -15,14 +14,14 @@ class SalesOrderManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[SalesOrder|object]) -> Self:
-        """
-        Constructor for SalesOrderManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of SalesOrder objects
-        :return: returns created singleton instance for SalesOrderManager
-        """
-        return cls(data)
-
     def create_sales_order(self):
         pass
+
+
+def create(data: list[SalesOrder|object]) -> SalesOrderManager:
+    """
+    Constructor for SalesOrderManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of SalesOrder objects
+    :return: returns created singleton instance for SalesOrderManager
+    """
+    return SalesOrderManager(data)

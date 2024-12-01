@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.SalesPerson import SalesPerson
 from Utils.Singleton import Singleton
 
@@ -15,11 +14,11 @@ class SalesPersonManager(metaclass=Singleton):
         self.data = data
         return
 
-    @classmethod
-    def create(cls, data: list[SalesPerson|object]) -> Self:
-        """
-        Constructor for SalesPersonManager, do not use this to access existing singleton, use __init__ method instead
-        :param data: list of SalesPerson objects
-        :return: returns created singleton instance for SalesPersonManager
-        """
-        return cls(data)
+
+def create(data: list[SalesPerson|object]) -> SalesPersonManager:
+    """
+    Constructor for SalesPersonManager, do not use this to access existing singleton, use __init__ method instead
+    :param data: list of SalesPerson objects
+    :return: returns created singleton instance for SalesPersonManager
+    """
+    return SalesPersonManager(data)
