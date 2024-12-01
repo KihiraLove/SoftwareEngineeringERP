@@ -14,11 +14,11 @@ class BusinessPartnerManager(metaclass=Singleton):
         self.data = data
         return
 
-    def names(self) -> list[str]:
-        names = []
+    def names_and_ids(self) -> list[str]:
+        names_ids = []
         for business_partner in self.data:
-            names.append(business_partner.company)
-        return names
+            names_ids.append(f"{business_partner.company}({business_partner.id})")
+        return names_ids
 
 
 

@@ -2,8 +2,10 @@ from Enums.AccessType import AccessType
 from Enums.StatusKey import StatusKey
 from Managers.AccessList import AccessList
 from Managers.EntryManagers.BusinessPartnerManager import BusinessPartnerManager
+from Managers.EntryManagers.MaterialManager import MaterialManager
 from Managers.EntryManagers.SalesOrderManager import SalesOrderManager
 from Managers.SessionManager import SessionManager
+from Utils.GenerateData import generate_time
 from Utils.Singleton import Singleton
 import PySimpleGUI as sg
 
@@ -11,7 +13,7 @@ import PySimpleGUI as sg
 class UIManager(metaclass=Singleton):
     def __init__(self):
         self.window = None
-        self.dynamic_row_count = 1
+        self.dynamic_row_itr = 0
         return
 
     def close_window(self) -> None:
@@ -54,14 +56,17 @@ class UIManager(metaclass=Singleton):
 
         self.window = sg.Window("Login", layout, finalize=True)
 
+    def _get_next_dynamic_row(self) -> list:
+        material_manager = MaterialManager()
+        materials = material_manager.names_and_ids()
+        return [sg.Combo(materials, size=(20, 1), key=f"-MATERIAL-{self.dynamic_row_itr}-"),
+                sg.Input(size=(20, 1), key=f"-MATERIAL-{self.dynamic_row_itr}-")]
+
     def update_window(self, status: StatusKey|None):
         if status is StatusKey.ADD_ROW:
-            new_row = [
-                sg.Combo(["Item 1", "Item 2", "Item 3"], size=(20, 1), key=f"-ITEM-{self.dynamic_row_count}-"),
-                sg.Input(size=(20, 1), key=f"-MATERIAL-{self.dynamic_row_count}-")
-            ]
+            new_row = self._get_next_dynamic_row()
             self.window.extend_layout(self.window["-DYNAMIC_ROWS-"], [new_row])
-            self.dynamic_row_count += 1
+            self.dynamic_row_itr += 1
             return
         self.close_window()
         layout = []
@@ -75,7 +80,6 @@ class UIManager(metaclass=Singleton):
         self.window = sg.Window(
             "Main Window",
             layout,
-            size=(800, 600),
             element_justification="left",
             margins=(0, 0),
             finalize=True
@@ -99,8 +103,7 @@ class UIManager(metaclass=Singleton):
         ])
         return layout
 
-    @staticmethod
-    def _create_sales_order_layout():
+    def _create_sales_order_layout(self):
         """
         Creates a PySimpleGUI layout with the following structure:
         1. Title row.
@@ -110,15 +113,14 @@ class UIManager(metaclass=Singleton):
         5. Bottom row with Save, Discard, and Exit buttons.
         """
         # Initial dynamic layout (empty at the start)
-        so_manager = SalesOrderManager()
-        id = len(so_manager.data)
-        bp_manager = BusinessPartnerManager()
-        business_partners = bp_manager.names()
+        self.dynamic_row_itr = 0
 
-        dynamic_rows = [[
-            sg.Combo(["Item 1", "Item 2", "Item 3"], size=(20, 1), key=f"-ITEM-0-"),
-            sg.Input(size=(20, 1), key=f"-MATERIAL-0-")
-        ]]
+        so_manager = SalesOrderManager()
+        bp_manager = BusinessPartnerManager()
+        business_partners = bp_manager.names_and_ids()
+        id = len(so_manager.data)
+        date = generate_time()
+        dynamic_rows = [self._get_next_dynamic_row()]
 
         # Static layout
         layout = [
@@ -126,12 +128,11 @@ class UIManager(metaclass=Singleton):
             [sg.Text("ID:", size=(15, 1)), sg.Input(id, readonly=True, size=(20, 1), key="-ID-")],
             [sg.Text("Business Partners:", size=(15, 1)),
              sg.Combo(business_partners, size=(20, 1), key="-BUSINESS_PARTNER-")],
-            [sg.Text("Date:", size=(15, 1)), sg.Input("", size=(20, 1), key="-DATE-"),
-             sg.CalendarButton("Select Date", target="-DATE-", format="%Y-%m-%d")],
+            [sg.Text("Date:", size=(15, 1)), sg.Input(date, readonly=True, size=(20, 1), key="-DATE-")],
             [sg.Text("Items:", size=(15, 1))],
             [sg.Column(dynamic_rows, key="-DYNAMIC_ROWS-", vertical_scroll_only=True, size=(500, 200),
                        scrollable=True, expand_x=True)],
-            [sg.Button("Add Item", key="-ADD_ITEM-"), sg.Button("Submit"), sg.Button("Cancel")],
+            [sg.Button("Add Item", key="-ADD_ITEM-")],
             [sg.HorizontalSeparator()],
             [sg.Button("Save", key="-SAVE-", size=(10, 1)), sg.Button("Discard", key="-DISCARD-", size=(10, 1)),
              sg.Button("Exit", key="-EXIT-", size=(10, 1))]

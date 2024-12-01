@@ -17,6 +17,11 @@ class MaterialManager(metaclass=Singleton):
     def create_material(self):
         return
 
+    def names_and_ids(self) -> list[str]:
+        names_ids = []
+        for material in self.data:
+            names_ids.append(f"{material.name} ({material.id})")
+        return names_ids
 
 def create(data: list[Material|object]) -> MaterialManager:
     """
