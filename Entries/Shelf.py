@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.ShelfBase import ShelfBase
 from Utils.Parsing import parse_int
 

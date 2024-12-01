@@ -2,6 +2,10 @@ from Managers.DataManager import DataManager
 from Managers.FlowManager import FlowManager
 from Managers.SessionManager import SessionManager
 from Managers.UIManager import UIManager
+from Utils.GenerateData import generate_data_if_not_exist
+
+# This isn't part of the software, it generates JSON files with dummy data to be used
+generate_data_if_not_exist()
 
 
 # initialize data

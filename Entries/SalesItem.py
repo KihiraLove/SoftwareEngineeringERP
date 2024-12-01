@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.SalesItemBase import SalesItemBase
 from Utils.Parsing import parse_int, parse_int_or_none
 
@@ -7,7 +6,7 @@ class SalesItem(SalesItemBase):
     """
     Data class for Sales Item type
     """
-    def __init__(self, id: int, amount: int, material_id: int, sales_order_id: int) -> None:
+    def __init__(self, id: int, amount: int, material_id: int|None, sales_order_id: int|None) -> None:
         """
         Constructor for SalesItem type
         :param id: id of sales item

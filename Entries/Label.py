@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.LabelBase import LabelBase
 from Utils.Parsing import parse_int_or_none, parse_int
 
@@ -7,7 +6,7 @@ class Label(LabelBase):
     """
     Data class for Label type
     """
-    def __init__(self, id: int, sales_order_id: int) -> None:
+    def __init__(self, id: int, sales_order_id: int|None) -> None:
         """
         Constructor for Label type
         :param id: id of label

@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.BusinessPartnerBase import BusinessPartnerBase
 from Utils.Parsing import parse_int, parse_int_or_none
 
@@ -7,7 +6,7 @@ class BusinessPartner(BusinessPartnerBase):
     """
     Data class for BusinessPartner type
     """
-    def __init__(self, id: int, company: str, address: str, sales_person_id: int) -> None:
+    def __init__(self, id: int, company: str, address: str, sales_person_id: int|None) -> None:
         """
         Constructor of BusinessPartner type
         :param id: id of business partner

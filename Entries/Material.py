@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.MaterialBase import MaterialBase
 from Utils.Parsing import parse_int
 

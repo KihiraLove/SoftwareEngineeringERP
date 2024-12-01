@@ -20,12 +20,12 @@ class FlowManager:
         :return: None
         """
         while True:
-            status = None
             if not self.session_manager.logged_in():
                 status = self.login_flow()
             else:
                 status = self.main_flow()
             if status == StatusKey.EXIT:
+                self.ui_manager.close_window()
                 break
         return
 
@@ -34,37 +34,30 @@ class FlowManager:
         UI flow to log in user
         :return: StatusKey whether the log in was successful or the user closed the window
         """
-        window = self.ui_manager.create_login_window()
+        self.ui_manager.create_login_window()
         while True:
-            event, values = window.read()
+            event, values = self.ui_manager.read_window()
             if event in (sg.WINDOW_CLOSED, "Cancel"):
-                window.close()
                 return StatusKey.EXIT
-
             if event == "Login":
                 status = self.session_manager.login(email=values["email"], password=values["password"])
-
                 if status == StatusKey.CORRECT:
-                    window.close()
                     return StatusKey.CORRECT
                 elif status == StatusKey.EMAIL_CORRECT:
-                    window["-MESSAGE-"].update("Invalid password.")
+                    self.ui_manager.show_message("Invalid password.")
                 else:
-                    window["-MESSAGE-"].update("Invalid email.")
+                    self.ui_manager.show_message("Invalid email.")
 
     def main_flow(self) -> StatusKey:
-        window = UIManager.create_main_window()
+        self.ui_manager.create_main_window()
 
         while True:
-            event, values = window.read()
+            event, values = self.ui_manager.read_window()
 
             if event in (sg.WINDOW_CLOSED, "-EXIT-"):
-                window.close()
                 return StatusKey.EXIT
             elif event == "-LOGOUT-":
                 self.session_manager.logout()
-                window.close()
                 return StatusKey.LOGOUT
             elif event == "-SALES-":
-                window.close()
                 return StatusKey.SALES_ORDER

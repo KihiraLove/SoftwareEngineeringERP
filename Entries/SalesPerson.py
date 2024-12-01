@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.SalesPersonBase import SalesPersonBase
 from Utils.Parsing import parse_bool, parse_int
 
@@ -7,7 +6,7 @@ class SalesPerson(SalesPersonBase):
     """
     Data class for SalesPerson type
     """
-    def __init__(self, id: int, name: str, phone_number: str, email: str, is_internal: bool) -> None:
+    def __init__(self, id: int, name: str, phone_number: str, email: str, is_internal: bool, user_id: int|None) -> None:
         """
         Constructor for SalesPerson type
         :param id: id of sales person
@@ -15,8 +14,10 @@ class SalesPerson(SalesPersonBase):
         :param phone_number: phone number of sales person
         :param email: email of sales person
         :param is_internal: is sales person internal or not
+        :param user_id: user id of internal sales person, None if external
         """
         super().__init__(id, name, phone_number, email, is_internal)
+        self.user_id = user_id
         return
 
     def __repr__(self):
@@ -29,7 +30,8 @@ class SalesPerson(SalesPersonBase):
                 f"\"name\": \"{self.name}\","
                 f"\"phone_number\": \"{self.phone_number}\","
                 f"\"email\": \"{self.email}\","
-                f"\"is_internal\": \"{self.is_internal}\""
+                f"\"is_internal\": \"{self.is_internal}\","
+                f"\"user_id\": \"{self.user_id}\""
                 f"}}")
 
     def get_id(self) -> int:
@@ -79,4 +81,5 @@ def from_string_list(string_list: list[str]) -> SalesPerson:
     phone_number = string_list[2]
     email = string_list[3]
     is_internal = parse_bool(string_list[4])
-    return SalesPerson(id, name, phone_number, email, is_internal)
+    user_id = parse_int(string_list[5])
+    return SalesPerson(id, name, phone_number, email, is_internal, user_id)

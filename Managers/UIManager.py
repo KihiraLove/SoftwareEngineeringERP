@@ -1,4 +1,3 @@
-from PySimpleGUI import Window
 from Enums.AccessType import AccessType
 from Managers.AccessList import AccessList
 from Managers.SessionManager import SessionManager
@@ -11,25 +10,46 @@ class UIManager(metaclass=Singleton):
         self.window = None
         return
 
-    @staticmethod
-    def create_login_window() -> Window:
+    def close_window(self) -> None:
+        """
+        Closes the UI window
+        :return: None
+        """
+        self.window.close()
+
+    def read_window(self) -> tuple:
+        """
+        Read actions and inputs from UI window
+        :return: events and values
+        """
+        return self.window.read()
+
+    def show_message(self, message: str) -> None:
+        """
+        Shows a message as new UI window
+        :param message: message to show
+        :return: None
+        """
+        self.window["-MESSAGE-"].update(message)
+
+    def create_login_window(self) -> None:
         """
         Creates UI for logging in using PySimpleGUI
         :return: created window
         """
+        if self.window is not None:
+            self.window.close()
+
         layout = [
             [sg.Text("Email:", size=(10, 1)), sg.Input(key="-email-", size=(25, 1))],
             [sg.Text("Password:", size=(10, 1)), sg.Input(key="-password-", password_char="*", size=(25, 1))],
             [sg.Button("Login", bind_return_key=True), sg.Button("Cancel")]
         ]
 
-        # Create the window
-        window = sg.Window("Login", layout, finalize=True)
+        self.window = sg.Window("Login", layout, finalize=True)
 
-        return window
-
-    @staticmethod
-    def create_main_window() -> Window:
+    def create_main_window(self):
+        self.close_window()
         session_manager = SessionManager()
         access_list = AccessList()
         logged_in_users_type = session_manager.current_users_type()
@@ -42,8 +62,7 @@ class UIManager(metaclass=Singleton):
              sg.Button("Exit", size=(10, 1), key="-EXIT-", pad=(20, 20))]
         ])
 
-        # Create the window
-        window = sg.Window(
+        self.window = sg.Window(
             "Main Window",
             layout,
             size=(1000, 700),
@@ -51,5 +70,3 @@ class UIManager(metaclass=Singleton):
             margins=(0, 0),  # Remove internal PySimpleGUI margins (handled in padding)
             finalize=True
         )
-
-        return window

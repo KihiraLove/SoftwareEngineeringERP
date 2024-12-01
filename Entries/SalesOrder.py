@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Self
 from Entries.Bases.SalesOrderBase import SalesOrderBase
 from Utils.Parsing import parse_bool, parse_int_or_none, parse_int, parse_datetime
 
@@ -8,7 +7,7 @@ class SalesOrder(SalesOrderBase):
     """
     Data class for SalesOrder type
     """
-    def __init__(self, id: int, date: datetime, status: str, is_inbound: bool, business_partner_id: int) -> None:
+    def __init__(self, id: int, date: datetime, status: str, is_inbound: bool, business_partner_id: int|None) -> None:
         """
         Constructor for SalesOrder type
         :param id: id of sales order

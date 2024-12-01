@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.UserBase import UserBase
 from Enums.UserType import UserType
 from Utils.Parsing import parse_int, parse_user_type

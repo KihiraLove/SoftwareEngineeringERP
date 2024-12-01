@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Self
 from Entries.Bases.WarehouseTaskBase import WarehouseTaskBase
 from Utils import Config
 from Utils.Parsing import parse_int, parse_int_or_none, parse_datetime
@@ -9,7 +8,7 @@ class WarehouseTask(WarehouseTaskBase):
     """
     Data class for WarehouseTask type
     """
-    def __init__(self, id: int, date: datetime, status: str, sales_order_id: int, user_id: int) -> None:
+    def __init__(self, id: int, date: datetime, status: str, sales_order_id: int|None, user_id: int|None) -> None:
         """
         Constructor for WarehouseTask type
         :param id: id of warehouse task

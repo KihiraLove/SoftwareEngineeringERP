@@ -1,4 +1,3 @@
-from typing import Self
 from Entries.Bases.ShelfItemBase import ShelfItemBase
 from Utils.Parsing import parse_int_or_none, parse_int
 
@@ -7,7 +6,7 @@ class ShelfItem(ShelfItemBase):
     """
     Data class for ShelfItem type
     """
-    def __init__(self, id: int, amount: int, shelf_id: int, material_id: int) -> None:
+    def __init__(self, id: int, amount: int, shelf_id: int|None, material_id: int|None) -> None:
         """
         Constructor of ShelfItem type
         :param id: id of shelf item
