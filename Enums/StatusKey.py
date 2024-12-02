@@ -3,7 +3,7 @@ from enum import Enum
 
 class StatusKey(Enum):
     """
-    Enum for UI window statuses
+    Enum for action statuses
     """
     EXIT = 1
     EMAIL_CORRECT = 2

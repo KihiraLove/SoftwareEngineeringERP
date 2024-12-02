@@ -1,4 +1,7 @@
 class Singleton(type):
+    """
+    Metaclass for Singletons to inherit from
+    """
     _instances = {}
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:

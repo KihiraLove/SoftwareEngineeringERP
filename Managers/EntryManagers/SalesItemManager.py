@@ -15,6 +15,13 @@ class SalesItemManager(metaclass=Singleton):
         return
 
     def create_sales_item(self, material_id: int, amount: int, sales_order_id: int) -> None:
+        """
+        Create new SalesItem and add it to SalesItemManager
+        :param material_id: id of linked material
+        :param amount: amount of material in sales item
+        :param sales_order_id: id of linked sales order
+        :return: None
+        """
         id = len(self.data)
         self.data.append(SalesItem(id, amount, material_id, sales_order_id))
         return

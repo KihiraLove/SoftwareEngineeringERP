@@ -1,4 +1,5 @@
 from Entries.User import User
+from Enums.UserType import UserType
 from Utils.Singleton import Singleton
 
 
@@ -34,6 +35,19 @@ class UserManager(metaclass=Singleton):
                     return user
             raise ValueError(f"User id {id} not found")
 
+    def create_new_user(self, name: str, email: str, password: str, user_type: UserType) -> User:
+        """
+        Create new User and save it to UserManager
+        :param name: name of the new user
+        :param email: email of the new user
+        :param password: password of the new user
+        :param user_type: type of new user
+        :return: new User
+        """
+        id = len(self.data)
+        new_user = User(id, name, email, password, user_type)
+        self.data.append(new_user)
+        return new_user
 
 def create(data: list[User|object]) -> UserManager:
     """

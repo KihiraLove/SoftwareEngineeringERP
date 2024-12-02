@@ -2,6 +2,8 @@ from collections import namedtuple
 from Entries import BusinessPartner, Label, Material, SalesItem, SalesOrder, SalesPerson, Shelf, ShelfItem, User, WarehouseTask
 from Managers.EntryManagers import BusinessPartnerManager, LabelManager, MaterialManager, SalesItemManager, SalesOrderManager, SalesPersonManager, ShelfManager, ShelfItemManager, UserManager, WarehouseTaskManager
 
+# This modul is used to create generic functions
+
 Type_ManagerType = namedtuple('Type_ManagerType', ['type', 'manager_type'])
 
 # use TYPES.keys() and TYPES.values()

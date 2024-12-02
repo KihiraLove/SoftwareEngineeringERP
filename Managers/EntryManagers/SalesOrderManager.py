@@ -17,9 +17,51 @@ class SalesOrderManager(metaclass=Singleton):
         return
 
     def create_sales_order(self, date: datetime, status: str, is_inbound: bool, business_partner_id: int) -> int:
+        """
+        Create new SalesOrder and save it to SalesOrderManager
+        :param date: date and time of sales order
+        :param status: status of sales order
+        :param is_inbound: is sales order inbound
+        :param business_partner_id: id of linked business partner
+        :return: id of new sales order
+        """
         id = len(self.data)
         self.data.append(SalesOrder(id , date, status, is_inbound, business_partner_id))
         return id
+
+    def get_by_bp_id(self, bp_id) -> list[SalesOrder]:
+        """
+        Get SalesOrder by Business Partner ID
+        :param bp_id: Business Partner ID
+        :return: all orders from Business Partner
+        """
+        orders = []
+        for order in self.data:
+            if order.business_partner_id == bp_id:
+                orders.append(order)
+        return orders
+
+    def get_by_id(self, id: int) -> SalesOrder:
+        """
+        Get SalesOrder by ID
+        :param id: id of sales order
+        :return: sales order by id
+        """
+        for order in self.data:
+            if order.id == id:
+                return order
+
+    def get_by_user_id(self, user_id: int) -> list[SalesOrder]:
+        """
+        Get SalesOrder by creator Users ID
+        :param user_id: creator Users ID
+        :return: all orders from creator User
+        """
+        orders = []
+        for order in self.data:
+            if order.user_id == user_id:
+                orders.append(order)
+        return orders
 
 
 def create(data: list[SalesOrder|object]) -> SalesOrderManager:

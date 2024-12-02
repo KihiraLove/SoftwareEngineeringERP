@@ -15,6 +15,10 @@ class BusinessPartnerManager(metaclass=Singleton):
         return
 
     def names_and_ids(self) -> list[str]:
+        """
+        Returns a list of names and ids of all BusinessPartners
+        :return: list of names and ids
+        """
         names_ids = []
         for business_partner in self.data:
             names_ids.append(f"{business_partner.company}({business_partner.id})")

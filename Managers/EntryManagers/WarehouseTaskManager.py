@@ -14,9 +14,6 @@ class WarehouseTaskManager(metaclass=Singleton):
         self.data = data
         return
 
-    def create_warehouse_task(self):
-        pass
-
 
 def create(data: list[WarehouseTask|object]) -> WarehouseTaskManager:
     """

@@ -1,5 +1,6 @@
 from Enums.StatusKey import StatusKey
 from Managers.DataManager import DataManager
+from Managers.EntryManagers.LabelManager import LabelManager
 from Managers.EntryManagers.MaterialManager import MaterialManager
 from Managers.EntryManagers.SalesItemManager import SalesItemManager
 from Managers.EntryManagers.SalesOrderManager import SalesOrderManager
@@ -9,7 +10,16 @@ import PySimpleGUI as sg
 
 
 class FlowManager:
+    """
+    Manage the flow of the program
+    """
     def __init__(self, data_manager: DataManager, ui_manager: UIManager, session_manager: SessionManager):
+        """
+        Constructor for FlowManager
+        :param data_manager: data manager
+        :param ui_manager: ui manager
+        :param session_manager: session manager
+        """
         self.data_manager = data_manager
         self.ui_manager = ui_manager
         self.session_manager = session_manager
@@ -58,6 +68,10 @@ class FlowManager:
                 return StatusKey.CORRECT
 
     def main_flow(self) -> StatusKey:
+        """
+        Used to control the main menu and sales order flows
+        :return: Status of last action
+        """
         status = StatusKey.MAIN
         while True:
             self.ui_manager.update_window(status)
@@ -65,28 +79,40 @@ class FlowManager:
             event, values = self.ui_manager.read_window()
 
             if event in (sg.WINDOW_CLOSED, "-EXIT-"):
+                # User exited
                 return StatusKey.EXIT
             elif event == "-LOGOUT-":
+                # user logged out
                 self.session_manager.logout()
                 return StatusKey.LOGOUT
             elif event == "-SALES-":
+                # User entered sales order menu
                 status = StatusKey.SALES_ORDER
                 continue
             elif event == "-MAIN-":
+                # user entered main menu
                 status = StatusKey.MAIN
                 continue
             elif event == "-ADD_ITEM-":
+                # user added new item to sales order
                 status = StatusKey.ADD_ROW
                 continue
             elif event == "-SAVE-":
+                # user saved sales order
                 status = self.submit_sales_order(values)
                 continue
 
 
     def submit_sales_order(self, values: dict) -> StatusKey:
+        """
+        Submit a new sales order
+        :param values: value read from UI
+        :return: status of action
+        """
         sales_order_manager = SalesOrderManager()
         sales_item_manager = SalesItemManager()
         material_manager = MaterialManager()
+        label_manager = LabelManager()
         try:
             is_inbound = False
             if values["-IS_INBOUND-"] == "Purchase Order":
@@ -104,6 +130,8 @@ class FlowManager:
             s_message = ""
             s_title = "Purchase Order Successful" if is_inbound else "Sales Order Successful"
             sales_order_id = sales_order_manager.create_sales_order(date, "New", is_inbound, business_partner_id)
+            # generate label for order
+            label_manager.create_label(sales_order_id)
             delay_flag = False
             for item in sales_items:
                 sales_item_manager.create_sales_item(item[0], item[1], sales_order_id)

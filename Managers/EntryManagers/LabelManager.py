@@ -15,6 +15,11 @@ class LabelManager(metaclass=Singleton):
         return
 
     def create_label(self, sales_order_id: int) -> None:
+        """
+        Create a new label, used during sales order
+        :param sales_order_id: id of linked sales order
+        :return: None
+        """
         id = len(self.data)
         self.data.append(Label(id, sales_order_id))
         return

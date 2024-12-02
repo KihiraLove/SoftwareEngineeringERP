@@ -17,19 +17,26 @@ class MaterialManager(metaclass=Singleton):
         self.data = data
         return
 
-    def create_material(self):
-        return
-
     def get_by_id(self, id: int) -> Material|None:
+        """
+        get a Material by id
+        :param id: id of Material
+        :return: Material or None
+        """
         for material in self.data:
             if material.get_id() == id:
                 return material
         return None
 
     def subtract_material(self, id: int, amount: int) -> StatusKey:
-        print(id)
+        """
+        Subtract from materials stock during sales order, automatically order more material if
+        stock gets lower than minimum stock, or sales order in unfulfillable due to not having the materials
+        :param id: id of Material
+        :param amount: amount of Material
+        :return: Status of ORDER action
+        """
         material = self.get_by_id(id)
-        print(material)
         new_stock = material.stock - amount
         sales_order_manager = SalesOrderManager()
         status = StatusKey.ORDERED
@@ -44,6 +51,10 @@ class MaterialManager(metaclass=Singleton):
         return status
 
     def names_ids_amounts(self) -> list[str]:
+        """
+        Get names and ids for all materials
+        :return: list of names and ids
+        """
         names_ids = []
         for material in self.data:
             names_ids.append(f"{material.name} ({material.id})")
