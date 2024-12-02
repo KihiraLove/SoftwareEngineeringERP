@@ -1,6 +1,7 @@
 from Entries.Material import Material
 from Enums.StatusKey import StatusKey
 from Managers.EntryManagers.SalesOrderManager import SalesOrderManager
+from Managers.SessionManager import SessionManager
 from Utils.Time import generate_time
 from Utils.Singleton import Singleton
 
@@ -39,10 +40,12 @@ class MaterialManager(metaclass=Singleton):
         material = self.get_by_id(id)
         new_stock = material.stock - amount
         sales_order_manager = SalesOrderManager()
+        session_manager = SessionManager()
+        current_user_id = session_manager.user.get_id()
         status = StatusKey.ORDERED
         if new_stock < material.min_stock:
             required_amount = material.min_stock - new_stock + 100
-            sales_order_manager.create_sales_order(generate_time(), "New", True, required_amount)
+            sales_order_manager.create_sales_order(generate_time(), "New", True, required_amount, current_user_id)
             status = StatusKey.AUTO_ORDER
         if new_stock < 0:
             status = StatusKey.DELAYED_ORDER

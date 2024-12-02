@@ -16,7 +16,7 @@ class SalesOrderManager(metaclass=Singleton):
         self.data = data
         return
 
-    def create_sales_order(self, date: datetime, status: str, is_inbound: bool, business_partner_id: int) -> int:
+    def create_sales_order(self, date: datetime, status: str, is_inbound: bool, business_partner_id: int, id_of_current_user: int) -> int:
         """
         Create new SalesOrder and save it to SalesOrderManager
         :param date: date and time of sales order
@@ -26,7 +26,7 @@ class SalesOrderManager(metaclass=Singleton):
         :return: id of new sales order
         """
         id = len(self.data)
-        self.data.append(SalesOrder(id , date, status, is_inbound, business_partner_id))
+        self.data.append(SalesOrder(id , date, status, is_inbound, business_partner_id, id_of_current_user))
         return id
 
     def get_by_bp_id(self, bp_id) -> list[SalesOrder]:

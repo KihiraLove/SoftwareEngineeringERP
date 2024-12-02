@@ -113,6 +113,7 @@ class FlowManager:
         sales_item_manager = SalesItemManager()
         material_manager = MaterialManager()
         label_manager = LabelManager()
+        id_of_current_user = self.session_manager.user.get_id()
         try:
             is_inbound = False
             if values["-IS_INBOUND-"] == "Purchase Order":
@@ -129,7 +130,7 @@ class FlowManager:
                 sales_items.append(item)
             s_message = ""
             s_title = "Purchase Order Successful" if is_inbound else "Sales Order Successful"
-            sales_order_id = sales_order_manager.create_sales_order(date, "New", is_inbound, business_partner_id)
+            sales_order_id = sales_order_manager.create_sales_order(date, "New", is_inbound, business_partner_id, id_of_current_user )
             # generate label for order
             label_manager.create_label(sales_order_id)
             delay_flag = False
