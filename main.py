@@ -18,6 +18,7 @@ from Utils.GenerateData import generate_data_if_not_exist
 # Python reStructuredText documentation was used
 # UI is dependent on package PySimpleGUI
 # Functions that are required but don't have UI can be found in Functions.py
+# Tests were started in test.py using the unittest package, but we ran out of time
 
 # Login UI has two fast login buttons that automatically log in as admin or user
 # Otherwise login info is: "admin" "1234"
