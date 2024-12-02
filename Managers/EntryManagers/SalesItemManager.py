@@ -14,7 +14,9 @@ class SalesItemManager(metaclass=Singleton):
         self.data = data
         return
 
-    def create_sales_item(self, sales_item: SalesItem) -> None:
+    def create_sales_item(self, material_id: int, amount: int, sales_order_id: int) -> None:
+        id = len(self.data)
+        self.data.append(SalesItem(id, amount, material_id, sales_order_id))
         return
 
 

@@ -14,8 +14,10 @@ class LabelManager(metaclass=Singleton):
         self.data = data
         return
 
-    def create_label(self):
-        pass
+    def create_label(self, sales_order_id: int) -> None:
+        id = len(self.data)
+        self.data.append(Label(id, sales_order_id))
+        return
 
 
 def create(data: list[Label|object]) -> LabelManager:

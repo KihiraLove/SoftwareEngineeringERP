@@ -1,5 +1,8 @@
 from Enums.StatusKey import StatusKey
 from Managers.DataManager import DataManager
+from Managers.EntryManagers.MaterialManager import MaterialManager
+from Managers.EntryManagers.SalesItemManager import SalesItemManager
+from Managers.EntryManagers.SalesOrderManager import SalesOrderManager
 from Managers.SessionManager import SessionManager
 from Managers.UIManager import UIManager
 import PySimpleGUI as sg
@@ -38,20 +41,27 @@ class FlowManager:
             if event in (sg.WINDOW_CLOSED, "Cancel"):
                 return StatusKey.EXIT
             if event == "Login":
-                #status = self.session_manager.login(email=values["-email-"], password=values["-password-"])
-                # added for quick login
-                status = self.session_manager.login("admin", "1234")
+                status = self.session_manager.login(email=values["-email-"], password=values["-password-"])
                 if status == StatusKey.CORRECT:
                     return StatusKey.CORRECT
                 elif status == StatusKey.EMAIL_CORRECT:
                     self.ui_manager.show_message("Error", "Invalid password.")
                 else:
                     self.ui_manager.show_message("Error", "Invalid email.")
+            if event == "Fast Login (Admin)":
+                # added for quick login
+                self.session_manager.login("admin", "1234")
+                return StatusKey.CORRECT
+            if event == "Fast Login (User)":
+                # added for quick login
+                self.session_manager.login("user", "1234")
+                return StatusKey.CORRECT
 
     def main_flow(self) -> StatusKey:
         status = StatusKey.MAIN
         while True:
             self.ui_manager.update_window(status)
+            status = None
             event, values = self.ui_manager.read_window()
 
             if event in (sg.WINDOW_CLOSED, "-EXIT-"):
@@ -61,9 +71,57 @@ class FlowManager:
                 return StatusKey.LOGOUT
             elif event == "-SALES-":
                 status = StatusKey.SALES_ORDER
+                continue
             elif event == "-MAIN-":
                 status = StatusKey.MAIN
+                continue
             elif event == "-ADD_ITEM-":
                 status = StatusKey.ADD_ROW
-            elif event == "SUBMIT_SALES_ORDER":
-                status = StatusKey.MAIN
+                continue
+            elif event == "-SAVE-":
+                status = self.submit_sales_order(values)
+                continue
+
+
+    def submit_sales_order(self, values: dict) -> StatusKey:
+        sales_order_manager = SalesOrderManager()
+        sales_item_manager = SalesItemManager()
+        material_manager = MaterialManager()
+        try:
+            is_inbound = False
+            if values["-IS_INBOUND-"] == "Purchase Order":
+                is_inbound = True
+
+            business_partner_id = int(values["-BUSINESS_PARTNER-"].split("(")[1].removesuffix(")"))
+            date = values["-DATE-"]
+            sales_items = []
+            for itr in range(self.ui_manager.get_dynamic_list_size()):
+                # (Material ID, EXT ID, Material Amount)
+                material_id = int(values[f"-MATERIAL-{itr}-"].split("(")[1].removesuffix(")"))
+                material_amount = int(values[f"-MATERIAL_AMOUNT-{itr}-"])
+                item = (material_id, material_amount)
+                sales_items.append(item)
+            s_message = ""
+            s_title = "Purchase Order Successful" if is_inbound else "Sales Order Successful"
+            sales_order_id = sales_order_manager.create_sales_order(date, "New", is_inbound, business_partner_id)
+            delay_flag = False
+            for item in sales_items:
+                sales_item_manager.create_sales_item(item[0], item[1], sales_order_id)
+                if not is_inbound:
+                    status = material_manager.subtract_material(item[0], item[1])
+                else:
+                    # We don't know the correct status, since this is handled by external partner
+                    status = StatusKey.ORDERED
+                material_name = material_manager.get_by_id(item[0]).name
+                s_message += f"material: {material_name} was ordered with status: {status}\n"
+                if status == StatusKey.DELAYED_ORDER:
+                    delay_flag = True
+
+            if delay_flag:
+                s_message += "Order is delayed due to low stock, automatic order to fill up stock was opened"
+
+            self.ui_manager.show_message(s_title, s_message)
+        except Exception as e:
+            self.ui_manager.show_message("Field Error", f"Please check values: {e}")
+            return StatusKey.FIELD_ERROR
+        return StatusKey.MAIN

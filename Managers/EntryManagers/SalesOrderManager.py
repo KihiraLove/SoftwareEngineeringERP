@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Entries.SalesOrder import SalesOrder
 from Utils.Singleton import Singleton
 
@@ -14,8 +16,10 @@ class SalesOrderManager(metaclass=Singleton):
         self.data = data
         return
 
-    def create_sales_order(self):
-        pass
+    def create_sales_order(self, date: datetime, status: str, is_inbound: bool, business_partner_id: int) -> int:
+        id = len(self.data)
+        self.data.append(SalesOrder(id , date, status, is_inbound, business_partner_id))
+        return id
 
 
 def create(data: list[SalesOrder|object]) -> SalesOrderManager:

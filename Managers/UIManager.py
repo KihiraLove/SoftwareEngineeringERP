@@ -5,7 +5,7 @@ from Managers.EntryManagers.BusinessPartnerManager import BusinessPartnerManager
 from Managers.EntryManagers.MaterialManager import MaterialManager
 from Managers.EntryManagers.SalesOrderManager import SalesOrderManager
 from Managers.SessionManager import SessionManager
-from Utils.GenerateData import generate_time
+from Utils.Time import generate_time
 from Utils.Singleton import Singleton
 import PySimpleGUI as sg
 
@@ -51,22 +51,26 @@ class UIManager(metaclass=Singleton):
         layout = [
             [sg.Text("Email:", size=(10, 1)), sg.Input(key="-email-", size=(25, 1))],
             [sg.Text("Password:", size=(10, 1)), sg.Input(key="-password-", password_char="*", size=(25, 1))],
-            [sg.Button("Login", bind_return_key=True), sg.Button("Cancel")]
+            [sg.Button("Login", bind_return_key=True), sg.Button("Cancel")],
+            [sg.Button("Fast Login (Admin)", bind_return_key=True), sg.Button("Fast Login (User)", bind_return_key=True)]
         ]
 
         self.window = sg.Window("Login", layout, finalize=True)
 
     def _get_next_dynamic_row(self) -> list:
         material_manager = MaterialManager()
-        materials = material_manager.names_and_ids()
-        return [sg.Combo(materials, size=(20, 1), key=f"-MATERIAL-{self.dynamic_row_itr}-"),
-                sg.Input(size=(20, 1), key=f"-MATERIAL-{self.dynamic_row_itr}-")]
+        materials = material_manager.names_ids_amounts()
+        rows = [sg.Combo(materials, size=(20, 1), key=f"-MATERIAL-{self.dynamic_row_itr}-"),
+                sg.Input(size=(20, 1), key=f"-MATERIAL_AMOUNT-{self.dynamic_row_itr}-")]
+        self.dynamic_row_itr +=1
+        return rows
 
     def update_window(self, status: StatusKey|None):
+        if status is StatusKey.FIELD_ERROR:
+            return
         if status is StatusKey.ADD_ROW:
             new_row = self._get_next_dynamic_row()
             self.window.extend_layout(self.window["-DYNAMIC_ROWS-"], [new_row])
-            self.dynamic_row_itr += 1
             return
         self.close_window()
         layout = []
@@ -104,19 +108,11 @@ class UIManager(metaclass=Singleton):
         return layout
 
     def _create_sales_order_layout(self):
-        """
-        Creates a PySimpleGUI layout with the following structure:
-        1. Title row.
-        2. ID (readonly) and Business Partners dropdown.
-        3. Date field.
-        4. Dynamic row creation for items (dropdown + input field for material).
-        5. Bottom row with Save, Discard, and Exit buttons.
-        """
-        # Initial dynamic layout (empty at the start)
         self.dynamic_row_itr = 0
 
         so_manager = SalesOrderManager()
         bp_manager = BusinessPartnerManager()
+
         business_partners = bp_manager.names_and_ids()
         id = len(so_manager.data)
         date = generate_time()
@@ -124,20 +120,22 @@ class UIManager(metaclass=Singleton):
 
         # Static layout
         layout = [
-            [sg.Text("Create Sales Order", font=("Helvetica", 16), justification="center", expand_x=True)],
+            [sg.Text("Create Sales Order/Purchase Order", font=("Helvetica", 16), justification="center", expand_x=True)],
             [sg.Text("ID:", size=(15, 1)), sg.Input(id, readonly=True, size=(20, 1), key="-ID-")],
-            [sg.Text("Business Partners:", size=(15, 1)),
-             sg.Combo(business_partners, size=(20, 1), key="-BUSINESS_PARTNER-")],
+            [sg.Text("Type:", size=(15, 1)), sg.Combo(["Purchase Order", "Sales Order"], size=(20, 1), key="-IS_INBOUND-")],
+            [sg.Text("Business Partners:", size=(15, 1)), sg.Combo(business_partners, size=(20, 1), key="-BUSINESS_PARTNER-")],
             [sg.Text("Date:", size=(15, 1)), sg.Input(date, readonly=True, size=(20, 1), key="-DATE-")],
             [sg.Text("Items:", size=(15, 1))],
-            [sg.Column(dynamic_rows, key="-DYNAMIC_ROWS-", vertical_scroll_only=True, size=(500, 200),
-                       scrollable=True, expand_x=True)],
+            [sg.Column(dynamic_rows, key="-DYNAMIC_ROWS-", vertical_scroll_only=True, size=(500, 200), scrollable=True, expand_x=True)],
             [sg.Button("Add Item", key="-ADD_ITEM-")],
             [sg.HorizontalSeparator()],
-            [sg.Button("Save", key="-SAVE-", size=(10, 1)), sg.Button("Discard", key="-DISCARD-", size=(10, 1)),
+            [sg.Button("Save", key="-SAVE-", size=(10, 1)), sg.Button("Discard", key="-MAIN-", size=(10, 1)),
              sg.Button("Exit", key="-EXIT-", size=(10, 1))]
         ]
 
         return layout
+
+    def get_dynamic_list_size(self) -> int:
+        return self.dynamic_row_itr
 
 

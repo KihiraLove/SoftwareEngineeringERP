@@ -1,6 +1,5 @@
 
 import os
-from datetime import datetime
 from Entries.BusinessPartner import BusinessPartner
 from Entries.Label import Label
 from Entries.Material import Material
@@ -14,8 +13,8 @@ from Entries.WarehouseTask import WarehouseTask
 from Enums.UserType import UserType
 from Managers import FileManager
 from Managers.FileManager import get_json_path, write_to_file
-from Utils import Config
 from Utils.Config import DATA_DIR
+from Utils.Time import generate_time
 from Utils.Types import TYPES
 
 # This file is not part of the software, it only generates the JSON files to be used by the software
@@ -72,9 +71,9 @@ def generate_content(name: str) -> str:
 
 
 def generate_business_partner_data() -> list[object]:
-    return [BusinessPartner(0, "Company 1", "123 Maple Street Rivertown", 2),
-            BusinessPartner(1, "Company 2", "45 Crescent Avenue Brightville", 3),
-            BusinessPartner(2, "Company 3", "62 Pinecrest Road Sunnydale", 4),]
+    return [BusinessPartner(0, "The LEGO Group", "123 Maple Street Rivertown", 2),
+            BusinessPartner(1, "Novo Nordisk", "45 Crescent Avenue Brightville", 3),
+            BusinessPartner(2, "Lidl", "62 Pinecrest Road Sunnydale", 4),]
 
 
 def generate_label_data() -> list[object]:
@@ -167,7 +166,3 @@ def generate_sales_order_data() -> list[object]:
             SalesOrder(3, generate_time(), "In warehouse", False, 0),
             SalesOrder(4, generate_time(), "In transit", False, 1),
             SalesOrder(5, generate_time(), "Competed", False, 2)]
-
-
-def generate_time() -> datetime:
-    return datetime.strptime(datetime.now().strftime(Config.TIME_FORMAT), Config.TIME_FORMAT)
